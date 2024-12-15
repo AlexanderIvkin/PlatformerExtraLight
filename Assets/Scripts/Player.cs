@@ -24,12 +24,14 @@ public class Player : Character
 
     private void OnEnable()
     {
-        _collisionDetector.CollisionStarted += HandleCollision;
+        _collisionDetector.CollisionStarted += HandleCollisionEnter;
+        _collisionDetector.CollisionStopped += HandleCollisionExit;
     }
 
     private void OnDisable()
     {
-        _collisionDetector.CollisionStarted -= HandleCollision;
+        _collisionDetector.CollisionStarted -= HandleCollisionEnter;
+        _collisionDetector.CollisionStopped -= HandleCollisionExit;
         
     }
 
@@ -37,12 +39,12 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        _jumper.Jump(IsJumping());
+        _jumper.Jump(IsJumping() && _groundCount > 0);
     }
 
-    private void HandleCollision(GameObject gameObject)
+    private void HandleCollisionEnter(GameObject gameObject)
     {
-        if (gameObject.TryGetComponent<Ground>(out Ground ground))
+        if (gameObject.TryGetComponent<Ground>(out _))
         {
             _groundCount++;
         }
@@ -53,6 +55,14 @@ public class Player : Character
         else if(gameObject.TryGetComponent<Coin>(out Coin coid))
         {
 
+        }
+    }
+
+    private void HandleCollisionExit(GameObject gameObject)
+    {
+        if (gameObject.TryGetComponent<Ground>(out _))
+        {
+            _groundCount--;
         }
     }
 

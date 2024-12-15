@@ -15,9 +15,11 @@ public class Character : MonoBehaviour
     private AnimationShower _animationShower;
     private Animator _animator;
     private Mover _mover;
+    private Fliper _fliper;
 
     protected virtual void Awake()
     {
+        _fliper = GetComponent<Fliper>();
         _mover = GetComponent<Mover>();
         _animator = GetComponent<Animator>();
         _animationShower = new AnimationShower(_animator);
@@ -28,6 +30,7 @@ public class Character : MonoBehaviour
         float direction = Directable.GetHorizontalDirection();
 
         _mover.Move(direction);
+        _fliper.Flip(direction);
         _animationShower.Show(WalkAnimationParameter, Mathf.Abs(direction));
     }
 }
