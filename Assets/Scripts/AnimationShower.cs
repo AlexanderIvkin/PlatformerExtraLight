@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AnimationShower
 {
-    private Animator _animator;
+    private readonly Animator _animator;
 
     public AnimationShower(Animator animator)
     {

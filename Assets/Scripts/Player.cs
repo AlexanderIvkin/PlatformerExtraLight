@@ -1,16 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CollisionDetector))]
+[RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(PickUpHandler))]
 [RequireComponent(typeof(InputHandler))]
 [RequireComponent(typeof(Jumper))]
 public class Player : Character
 {
-    private CollisionDetector _collisionDetector;
+    private readonly int JumpAnimationTrigger = Animator.StringToHash("Jump");
+
+    private GroundDetector _groundDetector;
     private InputHandler _inputHandler;
     private Jumper _jumper;
-    private int _groundCount = 0;
 
     protected override void Awake()
     {
@@ -19,55 +19,22 @@ public class Player : Character
         _inputHandler = GetComponent<InputHandler>();
         Directable = _inputHandler;
         _jumper = GetComponent<Jumper>();
-        _collisionDetector = GetComponent<CollisionDetector>();
-    }
-
-    private void OnEnable()
-    {
-        _collisionDetector.CollisionStarted += HandleCollisionEnter;
-        _collisionDetector.CollisionStopped += HandleCollisionExit;
-    }
-
-    private void OnDisable()
-    {
-        _collisionDetector.CollisionStarted -= HandleCollisionEnter;
-        _collisionDetector.CollisionStopped -= HandleCollisionExit;
-        
+        _groundDetector = GetComponent<GroundDetector>();
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        _jumper.Jump(IsJumping() && _groundCount > 0);
+        Jump(_inputHandler.IsJumpButtonPressed() && _groundDetector.IsGrounded);
     }
 
-    private void HandleCollisionEnter(GameObject gameObject)
+    private void Jump(bool isJumping)
     {
-        if (gameObject.TryGetComponent<Ground>(out _))
+        if (isJumping)
         {
-            _groundCount++;
+            AnimationShower.Show(JumpAnimationTrigger);
+            _jumper.Jump();
         }
-        else if (gameObject.TryGetComponent<Enemy>(out Enemy enemy))
-        {
-
-        }
-        else if(gameObject.TryGetComponent<Coin>(out Coin coid))
-        {
-
-        }
-    }
-
-    private void HandleCollisionExit(GameObject gameObject)
-    {
-        if (gameObject.TryGetComponent<Ground>(out _))
-        {
-            _groundCount--;
-        }
-    }
-
-    private bool IsJumping()
-    {
-        return _inputHandler.IsJumpButtonPressed();
-    }
+    } 
 }

@@ -14,6 +14,6 @@ public class Mover : MonoBehaviour
 
     public void Move(float direction)
     {
-        _rigidbody2D.velocity = new Vector2(direction * _speed, transform.localPosition.y);
+        _rigidbody2D.velocity = new Vector2(direction * _speed, _rigidbody2D.velocity.y);
     }
 }

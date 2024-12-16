@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [SelectionBase]
@@ -11,8 +9,8 @@ public class Character : MonoBehaviour
     private const string WalkAnimationParameter = "Speed";
 
     protected IDirectable Directable;
+    protected AnimationShower AnimationShower;
 
-    private AnimationShower _animationShower;
     private Animator _animator;
     private Mover _mover;
     private Fliper _fliper;
@@ -22,7 +20,7 @@ public class Character : MonoBehaviour
         _fliper = GetComponent<Fliper>();
         _mover = GetComponent<Mover>();
         _animator = GetComponent<Animator>();
-        _animationShower = new AnimationShower(_animator);
+        AnimationShower = new AnimationShower(_animator);
     }
 
     protected virtual void FixedUpdate()
@@ -31,6 +29,6 @@ public class Character : MonoBehaviour
 
         _mover.Move(direction);
         _fliper.Flip(direction);
-        _animationShower.Show(WalkAnimationParameter, Mathf.Abs(direction));
+        AnimationShower.Show(WalkAnimationParameter, Mathf.Abs(direction));
     }
 }

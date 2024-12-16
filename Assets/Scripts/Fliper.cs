@@ -4,13 +4,15 @@ public class Fliper : MonoBehaviour
 {
     public void Flip(float direction)
     {
-        Debug.Log("Вызван поворот");
         float flipBound = 0.05f;
+        float rightOrientation = 0f;
+        float leftOrientation = 180f;
 
         if (Mathf.Abs(direction) >= flipBound)
         {
-            Debug.Log("Поворот повернут");
-            transform.localScale = new Vector2(Mathf.Sign(direction), transform.localScale.y);
+            float rotationY = (direction > 0) ? rightOrientation : leftOrientation;
+
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, rotationY, transform.rotation.z));
         }
     }
 }

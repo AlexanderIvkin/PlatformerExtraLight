@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputHandler: MonoBehaviour,IDirectable
+public class InputHandler : MonoBehaviour, IDirectable
 {
     private const string Horizontal = "Horizontal";
     private const KeyCode JumpButton = KeyCode.Space;

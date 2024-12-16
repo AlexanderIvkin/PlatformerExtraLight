@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PatrolHandler : MonoBehaviour, IDirectable
@@ -7,22 +5,22 @@ public class PatrolHandler : MonoBehaviour, IDirectable
     [SerializeField] private float _walkingArea;
 
     private float _startPositionX;
-    bool _isChangeDirection = true;
-
+    bool _isRightWalking;
 
     private void Awake()
     {
+        _isRightWalking = true;
         _startPositionX = transform.localPosition.x;
     }
 
     public float GetHorizontalDirection()
     {
 
-        if(Mathf.Abs(_startPositionX - transform.localPosition.x) >= _walkingArea)
+        if (Mathf.Abs(_startPositionX - transform.localPosition.x) >= _walkingArea)
         {
-            _isChangeDirection = !_isChangeDirection;
+            _isRightWalking = !_isRightWalking;
         }
 
-        return _isChangeDirection? 1 : -1 ;
+        return _isRightWalking ? 1 : -1;
     }
 }
