@@ -10,7 +10,11 @@ public class InputReader : MonoBehaviour, IMovable, IJumpable
 
     private void Update()
     {
-        _isJump = Input.GetKeyDown(JumpButton);
+        if (Input.GetKeyDown(JumpButton))
+        {
+            _isJump = true;
+        }
+
         _horizontalDirection = Input.GetAxis(Horizontal);
     }
 
@@ -19,8 +23,13 @@ public class InputReader : MonoBehaviour, IMovable, IJumpable
         return _horizontalDirection;
     }
 
-    public bool IsJump()
+    public bool IsJump() => GetBoolAsTrigger(ref _isJump);
+
+    private bool GetBoolAsTrigger(ref bool value)
     {
-        return _isJump;
+        bool localValue = value;
+        value = false;
+
+        return localValue;
     }
 }
