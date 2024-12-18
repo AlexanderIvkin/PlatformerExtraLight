@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
 {
     private readonly int WalkAnimationParameter = Animator.StringToHash("Speed");
 
-    protected IDirectable Directable;
+    protected IMovable Movable;
     protected AnimationShower AnimationShower;
 
     private Animator _animator;
@@ -25,8 +25,11 @@ public class Character : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        float direction = Directable.GetHorizontalDirection();
+        Move(Movable.GetHorizontalDirection());
+    }
 
+    private void Move(float direction)
+    {
         _mover.Move(direction);
         _fliper.Flip(direction);
         AnimationShower.Show(WalkAnimationParameter, Mathf.Abs(direction));

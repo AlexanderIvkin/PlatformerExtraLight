@@ -7,6 +7,6 @@ public class Enemy : Character
     {
         base.Awake();
 
-        Directable = GetComponent<PatrolHandler>();
+        Movable = GetComponent<PatrolHandler>();
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PatrolHandler : MonoBehaviour, IDirectable
+public class PatrolHandler : MonoBehaviour, IMovable
 {
     [SerializeField] private float _walkingArea;
 

@@ -1,4 +1,4 @@
-public interface IDirectable
+public interface IMovable
 {
     float GetHorizontalDirection();
 }
