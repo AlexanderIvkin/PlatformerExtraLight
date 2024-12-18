@@ -7,31 +7,7 @@ public class GroundDetector : MonoBehaviour
     [SerializeField] private float _offsetX;
     [SerializeField] private LayerMask _layerMask;
 
-    //private int _groundCount;
-
-    //public bool IsGrounded => _groundCount > 0;
-    //public bool IsGroundedByRay { get; private set; }
-
-    //private void Awake()
-    //{
-    //    _groundCount = 0;
-    //}
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.TryGetComponent<Ground>(out _))
-    //    {
-    //        _groundCount++;
-    //    }
-    //}
-
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.TryGetComponent<Ground>(out _))
-    //    {
-    //        _groundCount--;
-    //    }
-    //}
+    public bool IsGrounded { get; private set; }
 
     private void OnDrawGizmos()
     {
@@ -39,19 +15,22 @@ public class GroundDetector : MonoBehaviour
         Gizmos.DrawSphere(transform.position + new Vector3(_offsetX, _offsetY, 0), _radius);
     }
 
-    public bool IsGrounded()
+    private void Update()
     {
-        bool isGrounded = false;
+        Check();
+    }
+
+    private void Check()
+    {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + new Vector3(_offsetX, _offsetY, 0), _radius, _layerMask);
 
-        foreach (Collider2D collider in colliders)
+        if (colliders.Length > 0)
         {
-            if (collider.gameObject.TryGetComponent<Ground>(out _))
-            {
-                isGrounded = true;
-            }
+            IsGrounded = true;
         }
-
-        return isGrounded;
+        else
+        {
+            IsGrounded = false;
+        }
     }
 }

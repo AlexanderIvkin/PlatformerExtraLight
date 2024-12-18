@@ -17,7 +17,7 @@ public class Player : Character
     private Wallet _wallet;
     private Health _health;
 
-    private bool IsJumpPossible => _inputReader.IsJump() && _groundDetector.IsGrounded();
+    private bool IsJumpPossible => _inputReader.IsJump() && _groundDetector.IsGrounded;
 
     protected override void Awake()
     {
