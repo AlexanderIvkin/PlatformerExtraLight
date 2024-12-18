@@ -14,7 +14,7 @@ public class AnimationShower
         _animator.SetTrigger(triggerName);
     }
 
-    public void Show(string parameterName, float paremeterValue)
+    public void Show(int parameterName, float paremeterValue)
     {
         _animator.SetFloat(parameterName, Mathf.Abs(paremeterValue));
     }

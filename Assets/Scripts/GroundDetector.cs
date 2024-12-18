@@ -2,28 +2,56 @@ using UnityEngine;
 
 public class GroundDetector : MonoBehaviour
 {
-    private int _groundCount;
+    [SerializeField] private float _radius;
+    [SerializeField] private float _offsetY;
+    [SerializeField] private float _offsetX;
+    [SerializeField] private LayerMask _layerMask;
 
-    public bool IsGrounded => _groundCount > 0;
+    //private int _groundCount;
 
-    private void Awake()
+    //public bool IsGrounded => _groundCount > 0;
+    //public bool IsGroundedByRay { get; private set; }
+
+    //private void Awake()
+    //{
+    //    _groundCount = 0;
+    //}
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.TryGetComponent<Ground>(out _))
+    //    {
+    //        _groundCount++;
+    //    }
+    //}
+
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.TryGetComponent<Ground>(out _))
+    //    {
+    //        _groundCount--;
+    //    }
+    //}
+
+    private void OnDrawGizmos()
     {
-        _groundCount = 0;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position + new Vector3(_offsetX, _offsetY, 0), _radius);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool IsGrounded()
     {
-        if (collision.gameObject.TryGetComponent<Ground>(out _))
-        {
-            _groundCount++;
-        }
-    }
+        bool isGrounded = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position + new Vector3(_offsetX, _offsetY, 0), _radius, _layerMask);
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.TryGetComponent<Ground>(out _))
+        foreach (Collider2D collider in colliders)
         {
-            _groundCount--;
+            if (collider.gameObject.TryGetComponent<Ground>(out _))
+            {
+                isGrounded = true;
+            }
         }
+
+        return isGrounded;
     }
 }

@@ -1,0 +1,2 @@
+public class FirstAidKit : Item { }
+

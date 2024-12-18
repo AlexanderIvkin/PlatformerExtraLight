@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Character : MonoBehaviour
 {
-    private const string WalkAnimationParameter = "Speed";
+    private readonly int WalkAnimationParameter = Animator.StringToHash("Speed");
 
     protected IDirectable Directable;
     protected AnimationShower AnimationShower;

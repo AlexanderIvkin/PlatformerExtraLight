@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Coin _coin;
+    [SerializeField] private Item[] _items;
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private int _delay;
 
@@ -18,7 +18,7 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < _spawnPoints.Length; i++)
         {
-            Instantiate(_coin, _spawnPoints[i].position, Quaternion.identity);
+            Instantiate(_items[Random.Range(0, _items.Length)], _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
 
             yield return wait;
         }
