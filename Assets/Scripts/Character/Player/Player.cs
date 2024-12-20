@@ -1,21 +1,20 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(GroundDetector))]
 [RequireComponent(typeof(PickUpHandler))]
 [RequireComponent(typeof(InputReader))]
 [RequireComponent(typeof(Jumper))]
-[RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Wallet))]
+[RequireComponent(typeof(WalletViewer))]
 public class Player : Character
 {
-    private readonly int JumpAnimationTrigger = Animator.StringToHash("Jump");
-
     private GroundDetector _groundDetector;
     private InputReader _inputReader;
     private Jumper _jumper;
     private PickUpHandler _pickUpHandler;
     private Wallet _wallet;
-    private Health _health;
+    private PlayerAnimator _playerAnimator;
 
     private bool IsJumpPossible => _inputReader.IsJump() && _groundDetector.IsGrounded;
 
@@ -27,9 +26,10 @@ public class Player : Character
         _jumper = GetComponent<Jumper>();
         _groundDetector = GetComponent<GroundDetector>();
         _pickUpHandler = GetComponent<PickUpHandler>();
-        Movable = _inputReader;
+        Directable = _inputReader;
         _wallet = GetComponent<Wallet>();
-        _health = GetComponent<Health>();
+        _playerAnimator = new PlayerAnimator(GetComponent<Animator>());
+
     }
 
     private void OnEnable()
@@ -54,10 +54,24 @@ public class Player : Character
         }
     }
 
+    protected override void Move(float direction)
+    {
+        base.Move(direction);
+
+        if(Mathf.Abs(direction) > 0)
+        {
+            _playerAnimator.PlayWalk();
+        }
+        else
+        {
+            _playerAnimator.PlayIdle();
+        }
+    }
+
     private void Jump()
     {
-        AnimationShower.Show(JumpAnimationTrigger);
         _jumper.Jump();
+        _playerAnimator.PlayJump();
     }
 
     private void TakeCoin()
@@ -67,6 +81,5 @@ public class Player : Character
 
     private void TakeFirstAidKit()
     {
-        _health.Increase();
     }
 }

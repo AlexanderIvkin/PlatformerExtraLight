@@ -8,12 +8,6 @@ public class GroundDetector : MonoBehaviour
 
     public bool IsGrounded { get; private set; }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(_legs.position, _radius);
-    }
-
     private void Update()
     {
         Check();
