@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 
     [SerializeField] private int _maxValue;
 
-    public int CurrentValue { get; private set; }
+    public int CurrentValue { get; protected set; }
 
     private void Awake()
     {
@@ -39,8 +39,6 @@ public class Health : MonoBehaviour
         if (value <= 0)
         {
             isPositive = false;
-
-            throw new Exception("Пытаемся изменить Здоровье на неверное значение!!!");
         }
 
         return isPositive;

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PickUpHandler: MonoBehaviour
 {
     public event Action CoinPicked;
-    public event Action FirstAidKitPicked;
+    public event Action<int> FirstAidKitPicked;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -16,7 +16,8 @@ public class PickUpHandler: MonoBehaviour
             }
             else if (item is FirstAidKit)
             {
-                FirstAidKitPicked?.Invoke();
+                FirstAidKit firstAidKit = item as FirstAidKit;
+                FirstAidKitPicked?.Invoke(firstAidKit.BonusHeal);
             }
             else
             {

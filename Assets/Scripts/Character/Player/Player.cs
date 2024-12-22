@@ -79,7 +79,8 @@ public class Player : Character
         _wallet.Increase();
     }
 
-    private void TakeFirstAidKit()
+    private void TakeFirstAidKit(int value)
     {
+        Health.Increase(value);
     }
 }
