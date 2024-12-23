@@ -15,14 +15,12 @@ public class PatrolHandler : MonoBehaviour, IDirectable
     {
         Vector2 direction;
 
-
         if (Mathf.Abs(transform.position.x - _wayPoints[_currentWayPoint].position.x) <= 0.05f)
         {
             _currentWayPoint = (_currentWayPoint + 1) % _wayPoints.Length;
         }
 
         direction = (_wayPoints[_currentWayPoint].position - transform.position).normalized;
-
 
         return direction.x;
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [SelectionBase]
@@ -7,16 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Character : MonoBehaviour, IDamageable
 {
-    public Health Health { get; protected set; }
-
-    [SerializeField] protected int Damage;
-    [SerializeField] protected ParticleSystem _deathParticleSystem;
+    [SerializeField] private int _damage;
+    [SerializeField] private ParticleSystem _deathParticleSystem;
 
     protected IDirectable Directable;
     protected bool IsAlive;
 
-    private Fliper _fliper;
     private Mover _mover;
+    private Fliper _fliper;
+
+    public Health Health { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -36,11 +35,11 @@ public class Character : MonoBehaviour, IDamageable
         Health.Died -= Die;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent<IDamageable>(out IDamageable target))
         {
-            target.TakeDamage(Damage);
+            target.TakeDamage(_damage);
         }
     }
 
@@ -67,6 +66,6 @@ public class Character : MonoBehaviour, IDamageable
     {
         IsAlive = false;
         _deathParticleSystem.Play();
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, 0.2f);
     }
 }

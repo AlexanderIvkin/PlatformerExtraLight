@@ -7,7 +7,6 @@ public class HealthViewer : MonoBehaviour
     [SerializeField] private Health _health;
     [SerializeField] private string _title;
 
-
     private void Start()
     {
         _text.text = $"{_title} : {_health.CurrentValue}";

@@ -1,13 +1,12 @@
-using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PatrolHandler))]
-[RequireComponent(typeof(TargetFinder))]
+[RequireComponent(typeof(TargetFollower))]
 [RequireComponent(typeof(Animator))]
 public class Enemy : Character
 {
     private PatrolHandler _patrolHandler;
-    private TargetFinder _targetFinder;
+    private TargetFollower _targetFollower;
     private EnemyAnimator _enemyAnimator;
 
     protected override void Awake()
@@ -15,7 +14,7 @@ public class Enemy : Character
         base.Awake();
 
         _patrolHandler = GetComponent<PatrolHandler>();
-        _targetFinder = GetComponent<TargetFinder>();
+        _targetFollower = GetComponent<TargetFollower>();
         Directable = _patrolHandler;
         _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
     }
@@ -24,13 +23,13 @@ public class Enemy : Character
     {
         if (IsAlive)
         {
-            if (_targetFinder.Target == null)
+            if (_targetFollower.Target == null)
             {
                 Directable = _patrolHandler;
             }
             else
             {
-                Directable = _targetFinder;
+                Directable = _targetFollower;
             }
         }
     }

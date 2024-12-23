@@ -13,4 +13,3 @@ public class Wallet: MonoBehaviour
         Changed?.Invoke(Value);
     }
 }
-

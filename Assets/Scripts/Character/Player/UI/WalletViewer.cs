@@ -7,7 +7,6 @@ public class WalletViewer : MonoBehaviour
     [SerializeField] private Wallet _wallet;
     [SerializeField] private string _title;
 
-
     private void Start()
     {
         _text.text = $"{_title} : {_wallet.Value}";

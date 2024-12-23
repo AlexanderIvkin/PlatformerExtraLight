@@ -5,7 +5,7 @@ public class Item: MonoBehaviour
 {
     public void PickUp()
     {
-        float delay = 0.05f;
+        float delay = 0.02f;
 
         Destroy(gameObject, delay);
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TargetFinder : MonoBehaviour, IDirectable
+public class TargetFollower : MonoBehaviour, IDirectable
 {
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _viewDistance;

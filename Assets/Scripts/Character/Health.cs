@@ -34,7 +34,6 @@ public class Health : MonoBehaviour
         
         if (CurrentValue == 0)
         {
-            Debug.Log("Health גûחûגאוע סלונעü");
             Died?.Invoke();
         }
     }
