@@ -10,7 +10,10 @@ public class Character : MonoBehaviour, IDamageable
     public Health Health { get; protected set; }
 
     [SerializeField] protected int Damage;
+    [SerializeField] protected ParticleSystem _deathParticleSystem;
+
     protected IDirectable Directable;
+    protected bool IsAlive;
 
     private Fliper _fliper;
     private Mover _mover;
@@ -19,6 +22,18 @@ public class Character : MonoBehaviour, IDamageable
     {
         _fliper = GetComponent<Fliper>();
         _mover = GetComponent<Mover>();
+        Health = GetComponent<Health>();
+        IsAlive = true;
+    }
+
+    protected virtual void OnEnable()
+    {
+        Health.Died += Die;
+    }
+
+    protected virtual void OnDisable()
+    {
+        Health.Died -= Die;
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -31,7 +46,10 @@ public class Character : MonoBehaviour, IDamageable
 
     protected virtual void FixedUpdate()
     {
-        Move(Directable.GetHorizontalDirection());
+        if (IsAlive)
+        {
+            Move(Directable.GetHorizontalDirection());
+        }
     }
 
     protected virtual void Move(float direction)
@@ -40,13 +58,15 @@ public class Character : MonoBehaviour, IDamageable
         _fliper.Flip(direction);
     }
 
-    private void AttackWhileCollisionStay(IDamageable target)
-    {
-        target.TakeDamage((int)(Damage * Time.deltaTime));
-    }
-
     public void TakeDamage(int damage)
     {
         Health.Decrease(damage);
+    }
+
+    private void Die()
+    {
+        IsAlive = false;
+        _deathParticleSystem.Play();
+        Destroy(gameObject, 3f);
     }
 }

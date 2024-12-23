@@ -4,6 +4,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public event Action<int> Changed;
+    public event Action Died;
 
     [SerializeField] private int _maxValue;
 
@@ -16,7 +17,7 @@ public class Health : MonoBehaviour
 
     public void Increase(int value)
     {
-        if (IsPositive(value))
+        if (IsIncomingValuePositive(value))
         {
             CurrentValue = Mathf.Clamp(CurrentValue + value, 0, _maxValue);
             Changed?.Invoke(CurrentValue);
@@ -25,14 +26,20 @@ public class Health : MonoBehaviour
 
     public void Decrease(int value)
     {
-        if (IsPositive(value))
+        if (IsIncomingValuePositive(value))
         {
             CurrentValue = Mathf.Clamp(CurrentValue - value, 0, _maxValue);
             Changed?.Invoke(CurrentValue);
         }
+        
+        if (CurrentValue == 0)
+        {
+            Debug.Log("Health גûחûגאוע סלונעü");
+            Died?.Invoke();
+        }
     }
 
-    private bool IsPositive(int value)
+    private bool IsIncomingValuePositive(int value)
     {
         bool isPositive = true;
 

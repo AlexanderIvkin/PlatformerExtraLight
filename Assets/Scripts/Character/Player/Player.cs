@@ -29,17 +29,20 @@ public class Player : Character
         Directable = _inputReader;
         _wallet = GetComponent<Wallet>();
         _playerAnimator = new PlayerAnimator(GetComponent<Animator>());
-
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         _pickUpHandler.CoinPicked += TakeCoin;
         _pickUpHandler.FirstAidKitPicked += TakeFirstAidKit;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         _pickUpHandler.CoinPicked -= TakeCoin;
         _pickUpHandler.FirstAidKitPicked -= TakeFirstAidKit;
     }
@@ -48,7 +51,7 @@ public class Player : Character
     {
         base.FixedUpdate();
 
-        if (IsJumpPossible)
+        if (IsJumpPossible && IsAlive)
         {
             Jump();
         }

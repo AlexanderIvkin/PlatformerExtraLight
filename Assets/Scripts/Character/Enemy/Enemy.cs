@@ -22,13 +22,16 @@ public class Enemy : Character
 
     private void Update()
     {
-        if (_targetFinder.Target == null)
+        if (IsAlive)
         {
-            Directable = _patrolHandler;
-        }
-        else
-        {
-            Directable = _targetFinder;
+            if (_targetFinder.Target == null)
+            {
+                Directable = _patrolHandler;
+            }
+            else
+            {
+                Directable = _targetFinder;
+            }
         }
     }
 
