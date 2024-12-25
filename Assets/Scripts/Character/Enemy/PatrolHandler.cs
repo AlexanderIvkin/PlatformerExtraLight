@@ -1,26 +1,27 @@
 using UnityEngine;
 
-public class PatrolHandler : MonoBehaviour, IDirectable
+public class PatrolHandler : MonoBehaviour
 {
     [SerializeField] private Transform[] _wayPoints;
 
-    private int _currentWayPoint;
+    private int _currentWayPointIndex;
 
     private void Awake()
     {
-        _currentWayPoint = 0;
+        _currentWayPointIndex = 0;
     }
 
     public float GetHorizontalDirection()
     {
         Vector2 direction;
+        float acceptableDirection = 0.05f;
 
-        if (Mathf.Abs(transform.position.x - _wayPoints[_currentWayPoint].position.x) <= 0.05f)
+        if (Mathf.Abs(transform.position.x - _wayPoints[_currentWayPointIndex].position.x) <= acceptableDirection)
         {
-            _currentWayPoint = (_currentWayPoint + 1) % _wayPoints.Length;
+            _currentWayPointIndex = ++_currentWayPointIndex % _wayPoints.Length;
         }
 
-        direction = (_wayPoints[_currentWayPoint].position - transform.position).normalized;
+        direction = (_wayPoints[_currentWayPointIndex].position - transform.position).normalized;
 
         return direction.x;
     }

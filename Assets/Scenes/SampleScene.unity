@@ -141,7 +141,8 @@ GameObject:
   - component: {fileID: 3577666}
   - component: {fileID: 3577668}
   - component: {fileID: 3577669}
-  m_Layer: 0
+  - component: {fileID: 3577670}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2be6fc4fa1a41444b8e9f174da338eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 3
   _deathParticleSystem: {fileID: 1755446109}
 --- !u!114 &3577659
 MonoBehaviour:
@@ -292,8 +292,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.9}
-  m_Size: {x: 1.2, y: 1.8}
+  m_Offset: {x: 0, y: 0.9028939}
+  m_Size: {x: 1.2, y: 1.7942121}
   m_Direction: 0
 --- !u!50 &3577664
 Rigidbody2D:
@@ -383,8 +383,26 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 8
-  _viewDistance: 2
   _raycastPoint: {fileID: 1397851009}
+  _viewDistance: 2
+--- !u!114 &3577670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb4b065a53e4574882d7e7c418b7814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
+  _delay: 4
+  _raycastPoint: {fileID: 370666312}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &10522003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1079,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Death Particles System
       objectReference: {fileID: 0}
+    - target: {fileID: 315761833867577957, guid: 8bec3bc5f5c91a549bd12468fb61d679, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6049876161587240169, guid: 8bec3bc5f5c91a549bd12468fb61d679, type: 3}
       propertyPath: looping
       value: 0
@@ -1226,9 +1248,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 370666312}
-  - component: {fileID: 370666313}
-  m_Layer: 0
-  m_Name: AttackZone
+  m_Layer: 8
+  m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1243,47 +1264,12 @@ Transform:
   m_GameObject: {fileID: 370666311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.17, y: 0.76, z: 0}
+  m_LocalPosition: {x: 0.36, y: 0.82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3577662}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &370666313
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370666311}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &449599722
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,6 +2015,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Death Particles System
       objectReference: {fileID: 0}
+    - target: {fileID: 315761833867577957, guid: 8bec3bc5f5c91a549bd12468fb61d679, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7613088774923275797, guid: 8bec3bc5f5c91a549bd12468fb61d679, type: 3}
       propertyPath: m_SortingOrder
       value: 6
@@ -2572,6 +2562,7 @@ GameObject:
   - component: {fileID: 941080917}
   - component: {fileID: 941080916}
   - component: {fileID: 941080915}
+  - component: {fileID: 941080933}
   - component: {fileID: 941080919}
   - component: {fileID: 941080920}
   - component: {fileID: 941080923}
@@ -2584,7 +2575,7 @@ GameObject:
   - component: {fileID: 941080930}
   - component: {fileID: 941080932}
   - component: {fileID: 941080931}
-  - component: {fileID: 941080933}
+  - component: {fileID: 941080934}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2722,7 +2713,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8524e762ffea8f46aa4558ec43b6d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 3
   _deathParticleSystem: {fileID: 665023968}
 --- !u!114 &941080921
 MonoBehaviour:
@@ -2844,7 +2834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _text: {fileID: 901633501}
   _health: {fileID: 941080932}
-  _title: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u044F:"
+  _title: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u044F"
 --- !u!114 &941080932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2893,6 +2883,24 @@ CapsuleCollider2D:
   m_Offset: {x: -0.14637923, y: 0.98251635}
   m_Size: {x: 0.8035815, y: 1.6440631}
   m_Direction: 0
+--- !u!114 &941080934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941080914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb4b065a53e4574882d7e7c418b7814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 15
+  _delay: 2
+  _raycastPoint: {fileID: 1681250810}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1166713698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3093,7 +3101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1397851009}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RaycastPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3109,7 +3117,7 @@ Transform:
   m_GameObject: {fileID: 1397851008}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.77, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40883,9 +40891,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1681250810}
-  - component: {fileID: 1681250811}
   m_Layer: 3
-  m_Name: AttackZone
+  m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40900,47 +40907,12 @@ Transform:
   m_GameObject: {fileID: 1681250809}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.16, y: 0.8, z: 0}
+  m_LocalPosition: {x: 0.349, y: 0.542, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 941080917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1681250811
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681250809}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &1752850420
 GameObject:
   m_ObjectHideFlags: 0

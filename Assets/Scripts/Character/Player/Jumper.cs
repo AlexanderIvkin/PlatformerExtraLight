@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,6 +8,8 @@ public class Jumper : MonoBehaviour
 
     private Rigidbody2D _rigidbody2d;
 
+    public event Action Jumped;
+
     private void Awake()
     {
         _rigidbody2d = GetComponent<Rigidbody2D>();
@@ -15,5 +18,6 @@ public class Jumper : MonoBehaviour
     public void Jump()
     {
         _rigidbody2d.AddForce(Vector2.up * _power, ForceMode2D.Impulse);
+        Jumped?.Invoke();
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(PickUpHandler))]
 [RequireComponent(typeof(InputReader))]
 [RequireComponent(typeof(Jumper))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(Fliper))]
 [RequireComponent(typeof(Wallet))]
 [RequireComponent(typeof(WalletViewer))]
 public class Player : Character
@@ -12,6 +15,8 @@ public class Player : Character
     private GroundDetector _groundDetector;
     private InputReader _inputReader;
     private Jumper _jumper;
+    private Mover _mover;
+    private Fliper _fliper;
     private PickUpHandler _pickUpHandler;
     private Wallet _wallet;
     private PlayerAnimator _playerAnimator;
@@ -23,10 +28,11 @@ public class Player : Character
         base.Awake();
 
         _inputReader = GetComponent<InputReader>();
-        _jumper = GetComponent<Jumper>();
         _groundDetector = GetComponent<GroundDetector>();
+        _mover = GetComponent<Mover>();
+        _jumper = GetComponent<Jumper>();
+        _fliper = GetComponent<Fliper>();
         _pickUpHandler = GetComponent<PickUpHandler>();
-        Directable = _inputReader;
         _wallet = GetComponent<Wallet>();
         _playerAnimator = new PlayerAnimator(GetComponent<Animator>());
     }
@@ -37,6 +43,10 @@ public class Player : Character
 
         _pickUpHandler.CoinPicked += TakeCoin;
         _pickUpHandler.FirstAidKitPicked += TakeFirstAidKit;
+        _mover.Moved += PlayWalkAnimation;
+        _mover.Stopped += PlayIdleAnimation;
+        _jumper.Jumped += PlayJumpAnimation;
+        Attacker.Attacked += PlayAttackAnimation;
     }
 
     protected override void OnDisable()
@@ -45,36 +55,41 @@ public class Player : Character
 
         _pickUpHandler.CoinPicked -= TakeCoin;
         _pickUpHandler.FirstAidKitPicked -= TakeFirstAidKit;
+        _mover.Moved -= PlayWalkAnimation;
+        _mover.Stopped -= PlayIdleAnimation;
+        _jumper.Jumped -= PlayJumpAnimation;
+        Attacker.Attacked -= PlayAttackAnimation;
     }
 
-    protected override void FixedUpdate()
+    private void FixedUpdate()
     {
-        base.FixedUpdate();
+        Move(_inputReader.GetHorizontalDirection());
 
         if (IsJumpPossible && IsAlive)
         {
             Jump();
         }
+
+        Attack();
     }
 
-    protected override void Move(float direction)
+    private void Move(float direction)
     {
-        base.Move(direction);
-
-        if(Mathf.Abs(direction) > 0)
-        {
-            _playerAnimator.PlayWalk();
-        }
-        else
-        {
-            _playerAnimator.PlayIdle();
-        }
+        _mover.Move(direction);
+        _fliper.Flip(direction);
     }
 
     private void Jump()
     {
         _jumper.Jump();
-        _playerAnimator.PlayJump();
+    }
+
+    private void Attack()
+    {
+        if (_inputReader.IsAttack())
+        {
+            Attacker.Execute();
+        }
     }
 
     private void TakeCoin()
@@ -85,5 +100,25 @@ public class Player : Character
     private void TakeFirstAidKit(int value)
     {
         Health.Increase(value);
+    }
+
+    private void PlayIdleAnimation()
+    {
+        _playerAnimator.PlayIdle();
+    }
+
+    private void PlayWalkAnimation()
+    {
+        _playerAnimator.PlayWalk();
+    }
+
+    private void PlayJumpAnimation()
+    {
+        _playerAnimator.PlayJump();
+    }
+
+    private void PlayAttackAnimation()
+    {
+        _playerAnimator.PlayAttack();
     }
 }

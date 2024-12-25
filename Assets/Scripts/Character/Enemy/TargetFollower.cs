@@ -1,13 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
-public class TargetFollower : MonoBehaviour, IDirectable
+public class TargetFollower : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private float _viewDistance;
     [SerializeField] private Transform _raycastPoint;
+    [SerializeField] private float _viewDistance;
 
     public Transform Target { get; private set; }
     public bool IsFind { get; private set; }
+
+    private void Start()
+    {
+        StartCoroutine(Scan());
+    }
 
     public float GetHorizontalDirection()
     {
@@ -21,24 +27,44 @@ public class TargetFollower : MonoBehaviour, IDirectable
         return direction;
     }
 
-    private void Update()
+    public float GetDistanceToTarget()
     {
-        RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, transform.right, _viewDistance, _layerMask);
+        float distance = 0;
 
-        if (hit.collider != null)
+        if (IsFind)
         {
-            Select(hit);
+            distance = Target.position.x - transform.position.x;
         }
-        else
+
+        return distance;
+    }
+
+    private IEnumerator Scan()
+    {
+        float delay = 0.2f;
+        var wait = new WaitForSeconds(delay);
+
+        while (true)
         {
-            Deselect();
+            RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, transform.right, _viewDistance, _layerMask);
+
+            if (hit.collider != null)
+            {
+                Select(hit.transform);
+            }
+            else
+            {
+                Deselect();
+            }
+
+            yield return wait;
         }
     }
 
-    private void Select(RaycastHit2D target)
+    private void Select(Transform target)
     {
         IsFind = true;
-        Target = target.transform;
+        Target = target;
     }
 
     private void Deselect()

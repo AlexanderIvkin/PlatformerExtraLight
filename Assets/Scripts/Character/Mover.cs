@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    
+
     private Rigidbody2D _rigidbody2D;
+
+    public event Action Moved;
+    public event Action Stopped;
 
     private void Awake()
     {
@@ -14,6 +18,14 @@ public class Mover : MonoBehaviour
 
     public void Move(float direction)
     {
-        _rigidbody2D.velocity = new Vector2(direction * _speed, _rigidbody2D.velocity.y);
+        if (Mathf.Abs(direction) > 0)
+        {
+            _rigidbody2D.velocity = new Vector2(direction * _speed, _rigidbody2D.velocity.y);
+            Moved?.Invoke();
+        }
+        else
+        {
+            Stopped?.Invoke();
+        }
     }
 }

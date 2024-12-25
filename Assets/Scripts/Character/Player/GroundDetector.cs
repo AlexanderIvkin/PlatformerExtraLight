@@ -10,20 +10,13 @@ public class GroundDetector : MonoBehaviour
 
     private void Update()
     {
-        Check();
+        Scan();
     }
 
-    private void Check()
+    private void Scan()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(_legs.position, _radius, _layerMask);
 
-        if (colliders.Length > 0)
-        {
-            IsGrounded = true;
-        }
-        else
-        {
-            IsGrounded = false;
-        }
+        IsGrounded = colliders.Length > 0;
     }
 }

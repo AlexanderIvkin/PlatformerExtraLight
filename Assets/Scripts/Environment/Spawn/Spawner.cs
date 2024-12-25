@@ -16,9 +16,11 @@ public class Spawner : MonoBehaviour
     {
         var wait = new WaitForSeconds(_delay);
 
-        for (int i = 0; i < _spawnPoints.Length; i++)
+        while (true)
         {
-            Instantiate(_items[Random.Range(0, _items.Length)], _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
+            Instantiate(_items[Random.Range(0, _items.Length)], 
+                _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, 
+                Quaternion.identity);
 
             yield return wait;
         }

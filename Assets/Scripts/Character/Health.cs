@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] private int _maxValue;
+
     public event Action<int> Changed;
     public event Action Died;
 
-    [SerializeField] private int _maxValue;
-
-    public int CurrentValue { get; protected set; }
+    public int CurrentValue { get; private set; }
 
     private void Awake()
     {
@@ -26,8 +26,10 @@ public class Health : MonoBehaviour
 
     public void Decrease(int value)
     {
+        Debug.Log("Отнимаем " + value);
         if (IsIncomingValuePositive(value))
         {
+            Debug.Log("Урон проходит " + value);
             CurrentValue = Mathf.Clamp(CurrentValue - value, 0, _maxValue);
             Changed?.Invoke(CurrentValue);
         }

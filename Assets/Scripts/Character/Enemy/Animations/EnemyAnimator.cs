@@ -4,6 +4,7 @@ public class EnemyAnimator
 {
     private readonly int WalkAnimationBool = Animator.StringToHash("Walk");
     private readonly int IdleAnimationBool = Animator.StringToHash("Idle");
+    private readonly int AttackAnimationTrigger = Animator.StringToHash("Attack");
 
     private Animator _animator;
 
@@ -14,23 +15,18 @@ public class EnemyAnimator
 
     public void PlayWalk()
     {
-        _animator.SetBool(WalkAnimationBool, Activate());
-        _animator.SetBool(IdleAnimationBool, Deactivate());
+        _animator.SetBool(WalkAnimationBool, true);
+        _animator.SetBool(IdleAnimationBool, false);
     }
 
     public void PlayIdle()
     {
-        _animator.SetBool(IdleAnimationBool, Activate());
-        _animator.SetBool(WalkAnimationBool, Deactivate());
+        _animator.SetBool(IdleAnimationBool, true);
+        _animator.SetBool(WalkAnimationBool, false);
     }
 
-    private bool Activate()
+    public void PlayAttack()
     {
-        return true;
-    }
-
-    private bool Deactivate()
-    {
-        return false;
+        _animator.SetTrigger(AttackAnimationTrigger);
     }
 }

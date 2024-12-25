@@ -1,50 +1,116 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(PatrolHandler))]
 [RequireComponent(typeof(TargetFollower))]
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Mover))]
+[RequireComponent(typeof(Fliper))]
 public class Enemy : Character
 {
     private PatrolHandler _patrolHandler;
     private TargetFollower _targetFollower;
     private EnemyAnimator _enemyAnimator;
+    private Mover _mover;
+    private Fliper _fliper;
+    private Coroutine UsualBehaviourCoroutine;
+    private Coroutine AlarmBehaviourCoroutine;
 
     protected override void Awake()
     {
         base.Awake();
 
+        _mover = GetComponent<Mover>();
+        _fliper = GetComponent<Fliper>();
         _patrolHandler = GetComponent<PatrolHandler>();
         _targetFollower = GetComponent<TargetFollower>();
-        Directable = _patrolHandler;
         _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
     }
 
-    private void Update()
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        _mover.Moved += PlayWalkAnimation;
+        _mover.Stopped += PlayIdleAnimation;
+        Attacker.Attacked += PlayAttackAnimation;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        _mover.Moved -= PlayWalkAnimation;
+        _mover.Stopped -= PlayIdleAnimation;
+        Attacker.Attacked -= PlayAttackAnimation;
+    }
+
+    private void FixedUpdate()
     {
         if (IsAlive)
         {
-            if (_targetFollower.Target == null)
+            if (_targetFollower.IsFind == true)
             {
-                Directable = _patrolHandler;
+                StartCoroutine(FollowTargetCoroutine(_targetFollower.IsFind));
             }
             else
             {
-                Directable = _targetFollower;
+                StartCoroutine(MoveWayPointsCoroutine(_targetFollower.Target == null));
             }
         }
     }
 
-    protected override void Move(float direction)
+    private IEnumerator FollowTargetCoroutine(bool hasTarget)
     {
-        base.Move(direction);
+        while (hasTarget)
+        {
+            Move(_targetFollower.GetHorizontalDirection());
+            Attack();
 
-        if (Mathf.Abs(direction) > 0)
-        {
-            _enemyAnimator.PlayWalk();
+            yield return null;
         }
-        else
+
+        yield break;
+    }
+
+    private IEnumerator MoveWayPointsCoroutine(bool isSafely)
+    {
+        while (isSafely)
         {
-            _enemyAnimator.PlayIdle();
+            Move(_patrolHandler.GetHorizontalDirection());
+
+            yield return null;
         }
+
+        yield break;
+    }
+
+    private void Attack()
+    {
+        if (_targetFollower.GetDistanceToTarget() <= Attacker.Distance)
+        {
+            Attacker.Execute();
+        }
+    }
+
+    private void Move(float direction)
+    {
+        _mover.Move(direction);
+        _fliper.Flip(direction);
+    }
+
+    private void PlayIdleAnimation()
+    {
+        _enemyAnimator.PlayIdle();
+    }
+
+    private void PlayWalkAnimation()
+    {
+        _enemyAnimator.PlayWalk();
+    }
+
+    private void PlayAttackAnimation()
+    {
+        _enemyAnimator.PlayAttack();
     }
 }

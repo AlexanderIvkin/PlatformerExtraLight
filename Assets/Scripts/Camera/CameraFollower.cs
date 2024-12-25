@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Follower : MonoBehaviour
+public class CameraFollower : MonoBehaviour
 {
     [SerializeField] private Transform _target;
 
@@ -11,7 +11,7 @@ public class Follower : MonoBehaviour
         _offset =  transform.position - _target.position;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         transform.position =  _target.position + _offset;
     }
