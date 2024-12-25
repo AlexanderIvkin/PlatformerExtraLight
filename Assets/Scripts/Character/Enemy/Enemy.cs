@@ -43,7 +43,7 @@ public class Enemy : Character
         Attacker.Attacked -= _enemyAnimator.PlayAttack;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
         if (IsAlive)
         {

@@ -7,8 +7,8 @@ public class TargetFinder : MonoBehaviour
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private float _viewDistance;
 
-    public Transform Target { get; private set; }
-    public bool IsFind { get; private set; }
+    public Transform Target { get; private set; } = null;
+    public bool IsFind { get; private set; } = false;
 
     private void Start()
     {
