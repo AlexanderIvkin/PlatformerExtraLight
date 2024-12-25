@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 3577659}
   - component: {fileID: 3577666}
   - component: {fileID: 3577668}
+  - component: {fileID: 3577671}
   - component: {fileID: 3577669}
   - component: {fileID: 3577670}
   m_Layer: 8
@@ -381,12 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38aae961eaecdd641abb83e4919de947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _raycastPoint: {fileID: 370666312}
-  _viewDistance: 2
   _mover: {fileID: 3577659}
+  _targetFinder: {fileID: 3577671}
 --- !u!114 &3577670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +402,23 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &3577671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0812ec86d6e0b814ca37a394ff0450b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _raycastPoint: {fileID: 370666312}
+  _viewDistance: 2
 --- !u!1 &10522003
 GameObject:
   m_ObjectHideFlags: 0
