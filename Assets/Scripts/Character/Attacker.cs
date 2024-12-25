@@ -13,7 +13,7 @@ public class Attacker : MonoBehaviour
 
     public event Action Attacked;
 
-    public float Distance { get; private set; } = 1.5f;
+    public float Distance { get; private set; } = 1f;
 
     public void Execute()
     {

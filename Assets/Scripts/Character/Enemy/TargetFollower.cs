@@ -6,6 +6,7 @@ public class TargetFollower : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private float _viewDistance;
+    [SerializeField] private Mover _mover;
 
     public Transform Target { get; private set; }
     public bool IsFind { get; private set; }
@@ -15,28 +16,21 @@ public class TargetFollower : MonoBehaviour
         StartCoroutine(Scan());
     }
 
-    public float GetHorizontalDirection()
+    public void Move()
     {
-        float direction = 0;
+        _mover.Move(GetHorizontalDirection());
+    }
+
+    private float GetHorizontalDirection()
+    {
+        Vector2 direction = new Vector2();
 
         if (Target != null)
         {
-            direction = Target.position.x - transform.position.x;
+            direction = (Target.position - transform.position).normalized;
         }
 
-        return direction;
-    }
-
-    public float GetDistanceToTarget()
-    {
-        float distance = 0;
-
-        if (IsFind)
-        {
-            distance = Target.position.x - transform.position.x;
-        }
-
-        return distance;
+        return direction.x;
     }
 
     private IEnumerator Scan()

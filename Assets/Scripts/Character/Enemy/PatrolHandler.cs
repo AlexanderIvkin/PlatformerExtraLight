@@ -3,6 +3,7 @@ using UnityEngine;
 public class PatrolHandler : MonoBehaviour
 {
     [SerializeField] private Transform[] _wayPoints;
+    [SerializeField] private Mover _mover;
 
     private int _currentWayPointIndex;
 
@@ -11,7 +12,12 @@ public class PatrolHandler : MonoBehaviour
         _currentWayPointIndex = 0;
     }
 
-    public float GetHorizontalDirection()
+    public void Move()
+    {
+        _mover.Move(GetHorizontalDirection());
+    }
+
+    private float GetHorizontalDirection()
     {
         Vector2 direction;
         float acceptableDirection = 0.05f;
