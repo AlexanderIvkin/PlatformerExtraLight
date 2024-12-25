@@ -19,9 +19,9 @@ public class Attacker : MonoBehaviour
     {
         if (_isPossible)
         {
-            StartCoroutine(TurnRecharge());
             Hit();
             Attacked?.Invoke();
+            StartCoroutine(TurnRecharge());
         }
     }
 
