@@ -8,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(Fliper))]
 public class Enemy : Character
 {
+    [SerializeField] private float _attackDistance;
+
     private PatrolHandler _patrolHandler;
     private TargetFollower _targetFollower;
     private TargetFinder _targetFinder;
@@ -49,9 +51,12 @@ public class Enemy : Character
         {
             if (_targetFinder.IsFind)
             {
-                if (Mathf.Abs(_targetFinder.Target.position.x - transform.position.x) <= Attacker.Distance)
+                if (Mathf.Abs(_targetFinder.Target.position.x - transform.position.x) <= _attackDistance)
                 {
-                    Attacker.Execute();
+                    if (Attacker.IsRecharge)
+                    {
+                        Attacker.Execute();
+                    }
                 }
                 else
                 {

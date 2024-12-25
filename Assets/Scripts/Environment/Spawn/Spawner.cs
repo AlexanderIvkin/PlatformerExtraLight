@@ -4,8 +4,9 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Item[] _items;
-    [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private int _delay;
+    [SerializeField] private Transform _leftBound;
+    [SerializeField] private Transform _rightBound;
 
     private void Start()
     {
@@ -18,8 +19,11 @@ public class Spawner : MonoBehaviour
 
         while (true)
         {
-            Instantiate(_items[Random.Range(0, _items.Length)], 
-                _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, 
+            Vector2 randomPosition = new Vector2(Random.Range(_leftBound.position.x, _rightBound.position.x), 
+                transform.position.y);
+
+            Instantiate(_items[Random.Range(0, _items.Length)],
+                randomPosition, 
                 Quaternion.identity);
 
             yield return wait;

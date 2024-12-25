@@ -21,6 +21,4 @@ public class TargetFollower : MonoBehaviour
 
         return direction.x;
     }
-
-    
 }

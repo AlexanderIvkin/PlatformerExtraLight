@@ -22,7 +22,10 @@ public class TargetFinder : MonoBehaviour
 
         while (true)
         {
-            RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, transform.right, _viewDistance, _layerMask);
+            RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, 
+                transform.right, 
+                _viewDistance, 
+                _layerMask);
 
             if (hit.collider != null)
             {

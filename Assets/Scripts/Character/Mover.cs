@@ -19,8 +19,6 @@ public class Mover : MonoBehaviour
 
     public void Move(float direction)
     {
-
-
         if (Mathf.Abs(direction) > 0)
         {
             _fliper.Flip(direction);

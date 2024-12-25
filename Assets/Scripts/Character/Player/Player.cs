@@ -21,6 +21,7 @@ public class Player : Character
     private PlayerAnimator _playerAnimator;
 
     private bool IsJumpPossible => _inputReader.IsJump() && _groundDetector.IsGrounded;
+    private bool IsAttackPossible => _inputReader.IsAttack() && Attacker.IsRecharge;
 
     protected override void Awake()
     {
@@ -61,16 +62,19 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        _mover.Move(_inputReader.GetHorizontalDirection());
-
-        if (IsJumpPossible && IsAlive)
+        if (IsAlive)
         {
-            _jumper.Jump();
-        }
+            _mover.Move(_inputReader.GetHorizontalDirection());
 
-        if (_inputReader.IsAttack())
-        {
-            Attacker.Execute();
+            if (IsJumpPossible)
+            {
+                _jumper.Jump();
+            }
+
+            if (IsAttackPossible)
+            {
+                Attacker.Execute();
+            }
         }
     }
 }

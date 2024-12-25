@@ -26,10 +26,8 @@ public class Health : MonoBehaviour
 
     public void Decrease(int value)
     {
-        Debug.Log("Отнимаем " + value);
         if (IsIncomingValuePositive(value))
         {
-            Debug.Log("Урон проходит " + value);
             CurrentValue = Mathf.Clamp(CurrentValue - value, 0, _maxValue);
             Changed?.Invoke(CurrentValue);
         }

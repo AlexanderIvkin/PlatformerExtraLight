@@ -33,7 +33,6 @@ public class PlayerAnimator
 
     public void PlayAttack()
     {
-        Debug.Log("ттт");
         _animator.SetTrigger(AttackAnimationTrigger);
     }
 }
