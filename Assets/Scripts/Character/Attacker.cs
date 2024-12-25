@@ -23,10 +23,6 @@ public class Attacker : MonoBehaviour
             Hit();
             Attacked?.Invoke();
         }
-        else
-        {
-            Debug.Log("не возможна");
-        }
     }
 
     private IEnumerator TurnRecharge()

@@ -46,7 +46,7 @@ public class Enemy : Character
         {
             if (_targetFollower.IsFind)
             {
-                if (Mathf.Abs(_targetFollower.Target.position.x - transform.position.x) <= Attacker.Distance/ 2)
+                if (Mathf.Abs(_targetFollower.Target.position.x - transform.position.x) <= Attacker.Distance)
                 {
                     Attacker.Execute();
                 }
