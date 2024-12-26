@@ -17,10 +17,11 @@ public class TargetFinder : MonoBehaviour
 
     private IEnumerator Scan()
     {
+        bool isEnable = true;
         float delay = 0.2f;
         var wait = new WaitForSeconds(delay);
 
-        while (true)
+        while (isEnable)
         {
             RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, 
                 transform.right, 

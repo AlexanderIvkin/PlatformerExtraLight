@@ -19,10 +19,6 @@ public class PickUpHandler: MonoBehaviour
                 FirstAidKit firstAidKit = item as FirstAidKit;
                 FirstAidKitPicked?.Invoke(firstAidKit.BonusHeal);
             }
-            else
-            {
-                Debug.Log("Выбрось каку! Или определи нормально, что подобрал! =))");
-            }
 
             item.PickUp();
         }
