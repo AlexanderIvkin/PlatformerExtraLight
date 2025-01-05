@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    [SerializeField] private int _damage;
+    [SerializeField] private float _damage;
     [SerializeField] private int _delay;
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private LayerMask _layerMask;
-     
+
     private float _damageDealRadius = 1f;
 
     public event Action Attacked;
@@ -17,9 +17,12 @@ public class Attacker : MonoBehaviour
 
     public void Execute()
     {
-        Hit();
-        Attacked?.Invoke();
-        StartCoroutine(TurnRecharge());
+        if (IsRecharge)
+        {
+            Hit();
+            Attacked?.Invoke();
+            StartCoroutine(TurnRecharge());
+        }
     }
 
     private IEnumerator TurnRecharge()

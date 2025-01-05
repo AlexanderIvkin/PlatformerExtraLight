@@ -1,17 +1,16 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(GroundDetector))]
 [RequireComponent(typeof(PickUpHandler))]
 [RequireComponent(typeof(InputReader))]
 [RequireComponent(typeof(Jumper))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(Fliper))]
 [RequireComponent(typeof(Wallet))]
-[RequireComponent(typeof(WalletViewer))]
 public class Player : Character
 {
+    [SerializeField] private Animator _animator;
+
     private GroundDetector _groundDetector;
     private InputReader _inputReader;
     private Jumper _jumper;
@@ -33,7 +32,7 @@ public class Player : Character
         _jumper = GetComponent<Jumper>();
         _pickUpHandler = GetComponent<PickUpHandler>();
         _wallet = GetComponent<Wallet>();
-        _playerAnimator = new PlayerAnimator(GetComponent<Animator>());
+        _playerAnimator = new PlayerAnimator(_animator);
     }
 
     protected override void OnEnable()
@@ -62,19 +61,19 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        if (IsAlive)
+        if (Health.IsAlive == false)
+            return;
+
+        _mover.Move(_inputReader.GetHorizontalDirection());
+
+        if (IsJumpPossible)
         {
-            _mover.Move(_inputReader.GetHorizontalDirection());
+            _jumper.Jump();
+        }
 
-            if (IsJumpPossible)
-            {
-                _jumper.Jump();
-            }
-
-            if (IsAttackPossible)
-            {
-                Attacker.Execute();
-            }
+        if (IsAttackPossible)
+        {
+            Attacker.Execute();
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PickUpHandler: MonoBehaviour
 {
     public event Action CoinPicked;
-    public event Action<int> FirstAidKitPicked;
+    public event Action<float> FirstAidKitPicked;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

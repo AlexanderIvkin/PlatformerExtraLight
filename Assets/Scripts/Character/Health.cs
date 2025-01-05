@@ -3,50 +3,40 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private int _maxValue;
+    [SerializeField] private float _maxValue;
 
-    public event Action<int> Changed;
+    public event Action<float> ValueChanged;
     public event Action Died;
 
-    public int CurrentValue { get; private set; }
+    public float CurrentValue { get; private set; }
+    public float MaxValue => _maxValue;
+    public bool IsAlive => CurrentValue > 0;
 
     private void Awake()
     {
         CurrentValue = _maxValue;
     }
 
-    public void Increase(int value)
+    public void Increase(float value)
     {
-        if (IsIncomingValuePositive(value))
-        {
-            CurrentValue = Mathf.Clamp(CurrentValue + value, 0, _maxValue);
-            Changed?.Invoke(CurrentValue);
-        }
+        if (value <= 0)
+            return;
+
+        CurrentValue = Mathf.Clamp(CurrentValue + value, 0, _maxValue);
+        ValueChanged?.Invoke(CurrentValue);
     }
 
-    public void Decrease(int value)
+    public void Decrease(float value)
     {
-        if (IsIncomingValuePositive(value))
-        {
-            CurrentValue = Mathf.Clamp(CurrentValue - value, 0, _maxValue);
-            Changed?.Invoke(CurrentValue);
-        }
-        
-        if (CurrentValue == 0)
+        if (value <= 0)
+            return;
+
+        CurrentValue = Mathf.Clamp(CurrentValue - value, 0, _maxValue);
+        ValueChanged?.Invoke(CurrentValue);
+
+        if (CurrentValue == 0 )
         {
             Died?.Invoke();
         }
-    }
-
-    private bool IsIncomingValuePositive(int value)
-    {
-        bool isPositive = true;
-
-        if (value <= 0)
-        {
-            isPositive = false;
-        }
-
-        return isPositive;
     }
 }

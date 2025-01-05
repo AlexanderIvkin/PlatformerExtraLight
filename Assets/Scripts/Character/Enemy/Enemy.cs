@@ -3,12 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(PatrolHandler))]
 [RequireComponent(typeof(TargetFollower))]
 [RequireComponent(typeof(TargetFinder))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(Fliper))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : Character
 {
     [SerializeField] private float _attackDistance;
+    [SerializeField] private Animator _animator;
 
     private PatrolHandler _patrolHandler;
     private TargetFollower _targetFollower;
@@ -24,7 +24,7 @@ public class Enemy : Character
         _patrolHandler = GetComponent<PatrolHandler>();
         _targetFollower = GetComponent<TargetFollower>();
         _targetFinder = GetComponent<TargetFinder>();
-        _enemyAnimator = new EnemyAnimator(GetComponent<Animator>());
+        _enemyAnimator = new EnemyAnimator(_animator);
     }
 
     protected override void OnEnable()
@@ -47,26 +47,26 @@ public class Enemy : Character
 
     private void FixedUpdate()
     {
-        if (IsAlive)
+        if (Health.IsAlive == false)
+            return;
+
+        if (_targetFinder.IsFind)
         {
-            if (_targetFinder.IsFind)
+            if (Mathf.Abs(_targetFinder.Target.position.x - transform.position.x) <= _attackDistance)
             {
-                if (Mathf.Abs(_targetFinder.Target.position.x - transform.position.x) <= _attackDistance)
+                if (Attacker.IsRecharge)
                 {
-                    if (Attacker.IsRecharge)
-                    {
-                        Attacker.Execute();
-                    }
-                }
-                else
-                {
-                    _targetFollower.Move();
+                    Attacker.Execute();
                 }
             }
             else
             {
-                _patrolHandler.Move();
+                _targetFollower.Move();
             }
+        }
+        else
+        {
+            _patrolHandler.Move();
         }
     }
 }

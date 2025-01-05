@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class TargetFinder : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class TargetFinder : MonoBehaviour
     [SerializeField] private float _viewDistance;
 
     public Transform Target { get; private set; } = null;
-    public bool IsFind { get; private set; } = false;
+    public bool IsFind => Target != null;
 
     private void Start()
     {
@@ -24,32 +25,20 @@ public class TargetFinder : MonoBehaviour
         while (isEnable)
         {
             RaycastHit2D hit = Physics2D.Raycast(_raycastPoint.position, 
-                transform.right, 
+                _raycastPoint.transform.right, 
                 _viewDistance, 
                 _layerMask);
 
             if (hit.collider != null)
             {
-                Select(hit.transform);
+                Target = hit.transform;
             }
             else
             {
-                Deselect();
+                Target = null;
             }
 
             yield return wait;
         }
-    }
-
-    private void Select(Transform target)
-    {
-        IsFind = true;
-        Target = target;
-    }
-
-    private void Deselect()
-    {
-        IsFind = false;
-        Target = null;
     }
 }

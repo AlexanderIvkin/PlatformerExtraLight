@@ -3,11 +3,9 @@ using UnityEngine;
 [SelectionBase]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(Attacker))]
-public class Character : MonoBehaviour, IDamageable
+public abstract class Character : MonoBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem _deathParticleSystem;
-
-    protected bool IsAlive;
 
     public Health Health { get; protected set; }
     public Attacker Attacker { get; protected set; }
@@ -16,7 +14,6 @@ public class Character : MonoBehaviour, IDamageable
     {
         Health = GetComponent<Health>();
         Attacker = GetComponent<Attacker>();
-        IsAlive = true;
     }
 
     protected virtual void OnEnable()
@@ -29,14 +26,13 @@ public class Character : MonoBehaviour, IDamageable
         Health.Died -= Die;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Health.Decrease(damage);
     }
 
     private void Die()
     {
-        IsAlive = false;
         _deathParticleSystem.Play();
         Destroy(gameObject, 0.2f);
     }

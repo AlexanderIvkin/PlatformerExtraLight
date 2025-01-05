@@ -1,5 +1,5 @@
 public class FirstAidKit : Item
 {
-    public int BonusHeal { get; private set; } = 10;
+    public float BonusHeal { get; private set; } = 10f;
 }
 
