@@ -1,37 +1,24 @@
 using UnityEngine;
 
-[RequireComponent(typeof(GroundDetector))]
-[RequireComponent(typeof(PickUpHandler))]
-[RequireComponent(typeof(InputReader))]
-[RequireComponent(typeof(Jumper))]
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(Wallet))]
 public class Player : Character
 {
     [SerializeField] private Animator _animator;
+    [SerializeField] private Vampirism _vampirism;
+    [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private InputReader _inputReader;
+    [SerializeField] private Jumper _jumper;
+    [SerializeField] private Mover _mover;
+    [SerializeField] private PickUpHandler _pickUpHandler;
+    [SerializeField] private Wallet _wallet;
 
-    private GroundDetector _groundDetector;
-    private InputReader _inputReader;
-    private Jumper _jumper;
-    private Mover _mover;
-    private PickUpHandler _pickUpHandler;
-    private Wallet _wallet;
     private PlayerAnimator _playerAnimator;
 
     private bool IsJumpPossible => _inputReader.IsJump() && _groundDetector.IsGrounded;
-    private bool IsAttackPossible => _inputReader.IsAttack() && Attacker.IsRecharge;
+    private bool IsAttack => _inputReader.IsAttack();
+    private bool IsVampirism => _inputReader.IsVampirism();
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
-        _inputReader = GetComponent<InputReader>();
-        _groundDetector = GetComponent<GroundDetector>();
-        _mover = GetComponent<Mover>();
-        _jumper = GetComponent<Jumper>();
-        _pickUpHandler = GetComponent<PickUpHandler>();
-        _wallet = GetComponent<Wallet>();
         _playerAnimator = new PlayerAnimator(_animator);
     }
 
@@ -71,9 +58,14 @@ public class Player : Character
             _jumper.Jump();
         }
 
-        if (IsAttackPossible)
+        if (IsAttack)
         {
             Attacker.Execute();
+        }
+
+        if (IsVampirism)
+        {
+            _vampirism.Execute();
         }
     }
 }

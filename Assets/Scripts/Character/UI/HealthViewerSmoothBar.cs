@@ -6,17 +6,16 @@ public class HealthViewerSmoothBar : HealthViewer
     [SerializeField] private ProgressBar _progressBar;
     [SerializeField] private float _smoothDecreaseStep = 25f;
 
-    private Coroutine _decreaseSmoothly;
+    private Coroutine _decreaseSmoothlyCoroutine;
 
     protected override void ChangeValue(float value)
     {
-        if (_decreaseSmoothly != null)
+        if (_decreaseSmoothlyCoroutine != null)
         {
-            StopCoroutine(_decreaseSmoothly);
+            StopCoroutine(_decreaseSmoothlyCoroutine);
         }
 
-        _decreaseSmoothly = StartCoroutine(DecreaseSmoothly(value));
-
+        _decreaseSmoothlyCoroutine = StartCoroutine(DecreaseSmoothly(value));
     }
 
     private IEnumerator DecreaseSmoothly(float targetValue)
@@ -34,6 +33,6 @@ public class HealthViewerSmoothBar : HealthViewer
             yield return null;
         } 
         
-        _decreaseSmoothly = null;                 
+        _decreaseSmoothlyCoroutine = null;                 
     }
 }

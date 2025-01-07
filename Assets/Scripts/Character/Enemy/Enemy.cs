@@ -1,29 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PatrolHandler))]
-[RequireComponent(typeof(TargetFollower))]
-[RequireComponent(typeof(TargetFinder))]
-[RequireComponent(typeof(Mover))]
-[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : Character
 {
     [SerializeField] private float _attackDistance;
+    [SerializeField] private Mover _mover;
+    [SerializeField] private PatrolHandler _patrolHandler;
+    [SerializeField] private TargetFinder _targetFinder;
+    [SerializeField] private TargetFollower _targetFollower;
+    [SerializeField] private Recharger _recharger;
     [SerializeField] private Animator _animator;
 
-    private PatrolHandler _patrolHandler;
-    private TargetFollower _targetFollower;
-    private TargetFinder _targetFinder;
     private EnemyAnimator _enemyAnimator;
-    private Mover _mover;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
-        _mover = GetComponent<Mover>();
-        _patrolHandler = GetComponent<PatrolHandler>();
-        _targetFollower = GetComponent<TargetFollower>();
-        _targetFinder = GetComponent<TargetFinder>();
         _enemyAnimator = new EnemyAnimator(_animator);
     }
 
@@ -54,7 +44,7 @@ public class Enemy : Character
         {
             if (Mathf.Abs(_targetFinder.Target.position.x - transform.position.x) <= _attackDistance)
             {
-                if (Attacker.IsRecharge)
+                if (_recharger.IsRecharge)
                 {
                     Attacker.Execute();
                 }

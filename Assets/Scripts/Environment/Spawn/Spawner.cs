@@ -15,9 +15,10 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator Spawn()
     {
+        bool isEnable = true;
         var wait = new WaitForSeconds(_delay);
 
-        while (true)
+        while (isEnable)
         {
             Vector2 randomPosition = new Vector2(Random.Range(_leftBound.position.x, _rightBound.position.x), 
                 transform.position.y);

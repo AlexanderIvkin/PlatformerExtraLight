@@ -1,20 +1,11 @@
 using UnityEngine;
 
 [SelectionBase]
-[RequireComponent(typeof(Health))]
-[RequireComponent(typeof(Attacker))]
 public abstract class Character : MonoBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem _deathParticleSystem;
-
-    public Health Health { get; protected set; }
-    public Attacker Attacker { get; protected set; }
-
-    protected virtual void Awake()
-    {
-        Health = GetComponent<Health>();
-        Attacker = GetComponent<Attacker>();
-    }
+    [SerializeField] protected Health Health;
+    [SerializeField] protected Attacker Attacker;
 
     protected virtual void OnEnable()
     {
