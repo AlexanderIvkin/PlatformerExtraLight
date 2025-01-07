@@ -68,7 +68,7 @@ public class Vampirism : MonoBehaviour
             Debug.Log("Целей больше нуля");
             for (int i = 0; i < targetsCount; i++)
             {
-                float currentDistance = Mathf.Abs((transform.position - targets[i].transform.position).magnitude);
+                float currentDistance = (transform.position - targets[i].transform.position).magnitude;
 
                 if (i == 0)
                 {
