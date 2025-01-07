@@ -37,11 +37,10 @@ public class Vampirism : MonoBehaviour
         while (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
-            IDamageable target = TryFindTarget();
+            Collider2D collider = TryFindTarget();
 
-            if(target != null)
+            if(collider != null && collider.TryGetComponent(out IDamageable target))
             {
-                Debug.Log("Есть цель");
                 float damagePerTime = _damage * Time.deltaTime;
                 target.TakeDamage(damagePerTime);
                 _health.Increase(damagePerTime);
@@ -55,32 +54,27 @@ public class Vampirism : MonoBehaviour
         _stealingHealthCoroutine = null;
     }
 
-    private IDamageable TryFindTarget()
+    private Collider2D TryFindTarget()
     {
-        Debug.Log("Ищу цель");
-        IDamageable nearestTarget = null;
+        Collider2D nearestTarget = null;
         float minDistance = 0f;
-        Collider2D[] targets = new Collider2D[7];
-        int targetsCount = Physics2D.OverlapCircleNonAlloc(_attackPoint.position, _damageDealRadius, targets, _targetLayerMask);
+        Collider2D[] targets = Physics2D.OverlapCircleAll(_attackPoint.position, _damageDealRadius, _targetLayerMask);
 
-        if (targetsCount > 0)
+        if (targets.Length > 0)
         {
-            Debug.Log("Целей больше нуля");
-            for (int i = 0; i < targetsCount; i++)
+            for (int i = 0; i < targets.Length; i++)
             {
                 float currentDistance = (transform.position - targets[i].transform.position).magnitude;
 
                 if (i == 0)
                 {
                     minDistance = currentDistance;
-                    Debug.Log("Присваеваем расстояние первой цели");
                 }
 
                 if (currentDistance <= minDistance)
                 {
-                    Debug.Log("Проверяем ещё цель");
                     minDistance = currentDistance;
-                    nearestTarget = targets[i] as IDamageable;
+                    nearestTarget = targets[i];
                 }
             }
         }
